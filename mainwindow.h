@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,42 +19,29 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_13_clicked();
+    void on_Time1_clicked();
 
-    void on_pushButton_14_clicked();
+    void on_Time2_clicked();
 
-    void on_pushButton_15_clicked();
+    void on_Start_clicked();
 
-    void on_pushButton_16_clicked();
+    void updateProgressBar();
 
-    void on_pushButton_clicked();
+    void on_Switch1_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_Switch2_clicked();
 
-    void on_pushButton_3_clicked();
-
-    void on_pushButton_4_clicked();
-
-    void on_pushButton_5_clicked();
-
-    void on_pushButton_6_clicked();
-
-    void on_pushButton_7_clicked();
-
-    void on_pushButton_8_clicked();
-
-    void on_pushButton_9_clicked();
-
-    void on_pushButton_10_clicked();
-
-    void on_pushButton_11_clicked();
-
-    void on_pushButton_12_clicked();
+    void on_Stop_clicked();
 
 private:
-    void numberClickHandler(int n);
-    bool num1Flag;
-    QString globalResult;
     Ui::MainWindow *ui;
+    int p1Time;
+    int p2Time;
+    int currentPlayer = 1;
+    int gameTime = 0;
+    int gameState=0;
+
+    QTimer *timer =nullptr;
+
 };
 #endif // MAINWINDOW_H

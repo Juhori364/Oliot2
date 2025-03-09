@@ -6,172 +6,88 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    num1Flag= false;
 }
 
 MainWindow::~MainWindow()
 {
+
+    if(timer){
+        timer->stop();
+        delete timer;
+        timer = nullptr;
+
+    }
     delete ui;
 }
 
+void MainWindow::on_Time1_clicked()
+{
+    gameTime=600;
+}
 
-void MainWindow::numberClickHandler(int n){
-    qDebug() << "Button clicked: " << n;
-    QString nString=QString::number(n);
 
-    if(num1Flag==false){
-        ui->Number1->setText(nString);
-        num1Flag=true;
+void MainWindow::on_Time2_clicked()
+{
+    gameTime=300;
+}
+
+
+void MainWindow::on_Start_clicked()
+{
+
+    p1Time=gameTime;
+    p2Time=gameTime;
+    currentPlayer = 1;
+
+    ui->prog1->setRange(0, gameTime);
+    ui->prog2->setRange(0, gameTime);
+    ui->prog1->setValue(gameTime);
+    ui->prog2->setValue(gameTime);
+
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &MainWindow:: updateProgressBar);
+    timer->setInterval(1000);
+    timer->start();
+
+
+}
+
+void MainWindow::updateProgressBar()
+{
+    if(currentPlayer==1){
+        p1Time--;
+        ui->prog1->setValue(p1Time);
+
     }
-        else{
-        ui->Number2->setText(nString);
-    };
-
-
-}
-
-//Plus operaatio
-void MainWindow::on_pushButton_13_clicked()
-{
-    QString num1=ui->Number1->text();
-    QString num2=ui->Number2->text();
-    int num1int =num1.toInt();
-    int num2int=num2.toInt();
-    int result = num1int+num2int;
-  globalResult=QString::number(result);
-
-}
-
-//Miinus operaatio
-void MainWindow::on_pushButton_14_clicked()
-{
-    QString num1=ui->Number1->text();
-    QString num2=ui->Number2->text();
-    int num1int =num1.toInt();
-    int num2int=num2.toInt();
-    int result = num1int-num2int;
-    globalResult=QString::number(result);
-
+    else{
+        p2Time--;
+        ui->prog2->setValue(p2Time);
+    }
 }
 
 
-void MainWindow::on_pushButton_15_clicked()
+void MainWindow::on_Switch1_clicked()
 {
-    QString num1=ui->Number1->text();
-    QString num2=ui->Number2->text();
-    int num1int =num1.toInt();
-    int num2int=num2.toInt();
-    int result = num1int*num2int;
-    globalResult=QString::number(result);
-
+    currentPlayer=2;
 }
 
 
-void MainWindow::on_pushButton_16_clicked()
+void MainWindow::on_Switch2_clicked()
 {
-    QString num1=ui->Number1->text();
-    QString num2=ui->Number2->text();
-    int num1int =num1.toInt();
-    int num2int=num2.toInt();
-    float result = num1int/num2int;
-    globalResult=QString::number(result);
-
+    currentPlayer=1;
 }
 
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_Stop_clicked()
 {
-    QString str=ui->pushButton->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
+    if(timer){
+        timer->stop();
+        delete timer;
+        timer = nullptr;
 
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    QString str=ui->pushButton_2->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
-
-
-void MainWindow::on_pushButton_3_clicked()
-{
-    QString str=ui->pushButton_3->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
-
-
-void MainWindow::on_pushButton_4_clicked()
-{
-    QString str=ui->pushButton_4->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
-
-
-void MainWindow::on_pushButton_5_clicked()
-{
-    QString str=ui->pushButton_5->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
-
-
-void MainWindow::on_pushButton_6_clicked()
-{
-    QString str=ui->pushButton_6->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
-
-
-void MainWindow::on_pushButton_7_clicked()
-{
-    QString str=ui->pushButton_7->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
-
-
-void MainWindow::on_pushButton_8_clicked()
-{
-    QString str=ui->pushButton_8->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
-
-
-void MainWindow::on_pushButton_9_clicked()
-{
-    QString str=ui->pushButton_9->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
-
-
-void MainWindow::on_pushButton_10_clicked()
-{
-    QString str=ui->pushButton_10->text();
-    int intStr=str.toInt();
-    numberClickHandler(intStr);
-}
-
-//Clear
-void MainWindow::on_pushButton_11_clicked()
-{
-    ui->Number1->setText("");
-    ui->Number2->setText("");
-    ui->Result->setText("");
-    num1Flag=false;
-}
-
-//Enter
-void MainWindow::on_pushButton_12_clicked()
-{
-    qDebug() << "Enter";
-    ui->Result->setText(globalResult);
+    }
+    ui->prog1->setValue(0);
+    ui->prog2->setValue(0);
 
 }
 
